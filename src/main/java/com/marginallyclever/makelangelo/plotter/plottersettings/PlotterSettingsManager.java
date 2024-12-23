@@ -66,6 +66,7 @@ public class PlotterSettingsManager {
         profile.setInteger(PlotterSettings.MIN_SEG_TIME, 20000);		// us
         profile.setInteger(PlotterSettings.STARTING_POS_INDEX, 4);
         profile.setInteger(PlotterSettings.Z_MOTOR_TYPE, PlotterSettings.Z_MOTOR_TYPE_SERVO);
+        profile.setInteger(PlotterSettings.FIRMWARE, PlotterSettings.FIRMWARE_MARLIN);
 
         profile.setString(PlotterSettings.START_GCODE, "");
         profile.setString(PlotterSettings.END_GCODE, "");

@@ -146,6 +146,11 @@ public class PlotterSettings {
 	 * String
 	 */
 	public static final String STYLE = "style";
+	
+	public static final String FIRMWARE = "firmware";
+	
+	public static final int FIRMWARE_MARLIN = 1;
+	public static final int FIRMWARE_GRBL = 2;
 
 	public static final int Z_MOTOR_TYPE_SERVO = 1;
 	public static final int Z_MOTOR_TYPE_STEPPER = 2;
@@ -189,6 +194,7 @@ public class PlotterSettings {
 		json.put(END_GCODE, 				"");
 		json.put(FIND_HOME_GCODE, 			DEFAULT_FIND_HOME_GCODE);
 		json.put(STYLE,         			PlotterRendererFactory.MAKELANGELO_5.getName());
+		json.put(FIRMWARE, 			    	PlotterSettings.FIRMWARE_MARLIN);
 		json.put(PAPER_COLOR,		 		(Color.WHITE.hashCode()));
 		json.put(PEN_DOWN_COLOR_DEFAULT, 	(Color.BLACK.hashCode()));
 		json.put(PEN_DOWN_COLOR, 			(Color.BLACK.hashCode()));
@@ -377,6 +383,7 @@ public class PlotterSettings {
 		json.put(END_GCODE, 				thisMachineNode.get(END_GCODE,""));
 		json.put(FIND_HOME_GCODE, 			thisMachineNode.get(FIND_HOME_GCODE, DEFAULT_FIND_HOME_GCODE));
 		json.put(STYLE,         			thisMachineNode.get(STYLE, PlotterRendererFactory.MAKELANGELO_5.getName()));
+		json.put(FIRMWARE,	 				thisMachineNode.getInt(FIRMWARE,PlotterSettings.FIRMWARE_MARLIN));
 		json.put(PAPER_COLOR,		 		thisMachineNode.getInt(PAPER_COLOR,(Color.WHITE.hashCode())));
 		json.put(PEN_DOWN_COLOR_DEFAULT, 	thisMachineNode.getInt(PEN_DOWN_COLOR_DEFAULT,(Color.BLACK.hashCode())));
 		json.put(PEN_DOWN_COLOR, 			thisMachineNode.getInt(PEN_DOWN_COLOR,(Color.BLACK.hashCode())));
@@ -420,6 +427,7 @@ public class PlotterSettings {
 		thisMachineNode.put(END_GCODE, 						json.getString(END_GCODE));
 		thisMachineNode.put(FIND_HOME_GCODE, 				json.getString(FIND_HOME_GCODE));
 		thisMachineNode.put(STYLE, 							json.getString(STYLE));
+		thisMachineNode.putInt(FIRMWARE,	 				json.getInt(FIRMWARE));
 		thisMachineNode.putInt(PAPER_COLOR, 				json.getInt(PAPER_COLOR));
 		thisMachineNode.putInt(PEN_DOWN_COLOR_DEFAULT, 		json.getInt(PEN_DOWN_COLOR_DEFAULT));
 		thisMachineNode.putInt(PEN_DOWN_COLOR, 				json.getInt(PEN_DOWN_COLOR));
@@ -528,7 +536,13 @@ public class PlotterSettings {
 			return "G1 Z" + (int)getDouble(PEN_ANGLE_DOWN);
 		}
 	}
-
+	public String getMachineFirmwareNames() {
+		if(getInteger(FIRMWARE) == FIRMWARE_GRBL) {
+			return "GRBL";
+		} else {
+			return "Marlin";
+		}
+	}
 	public String getToolChangeString(int toolNumber) {
 		String colorName = getColorName(toolNumber & 0xFFFFFF);
 		return "M0 Ready " + colorName + " and click";

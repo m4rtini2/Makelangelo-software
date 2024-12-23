@@ -16,13 +16,14 @@ import java.util.List;
 /**
  * {@link PlotterSettingsPanel} is the user interface to adjust {@link PlotterSettings}.
  *
- * @author Dan Rmaybe oyer
+ * @author Dan Royer
  * @since 7.1.4
  */
 public class PlotterSettingsPanel extends JPanel {
 	private static final Logger logger = LoggerFactory.getLogger(PlotterSettingsPanel.class);
 	private final PlotterSettings settings;
 	private SelectOneOfMany visualStyle;
+	private SelectOneOfMany firmware;
 	private SelectDouble machineWidth, machineHeight;
 	private SelectDouble totalBeltNeeded;
 	private SelectDouble totalServoNeeded;
@@ -53,7 +54,7 @@ public class PlotterSettingsPanel extends JPanel {
 	private SelectTextField findHomeGcode;
 
 	private PlotterSettingsListener listener;
-
+	
 	public PlotterSettingsPanel(PlotterSettings settings) {
 		super(new BorderLayout());
 		setName("PlotterSettingsPanel");
@@ -129,7 +130,7 @@ public class PlotterSettingsPanel extends JPanel {
 		var panel = new SelectPanel();
 		addToPanel(panel,penDiameter 		 = new SelectDouble("diameter",		 Translator.get("PlotterSettingsPanel.penToolDiameter"		),settings.getDouble(PlotterSettings.DIAMETER)));
 		addToPanel(panel,travelFeedRate 	 = new SelectDouble("feedrate",		 Translator.get("PlotterSettingsPanel.penToolMaxFeedRate"	),settings.getDouble(PlotterSettings.FEED_RATE_TRAVEL)));
-		addToPanel(panel,drawFeedRate 		 = new SelectDouble("speed",		 Translator.get("PlotterSettingsPanel.Speed"				),settings.getDouble(PlotterSettings.FEED_RATE_DRAW)));
+		addToPanel(panel,drawFeedRate 		 = new SelectDouble("speed",		 Translator.get("PlotterSettingsPanel.penToolMaxSpeed"		),settings.getDouble(PlotterSettings.FEED_RATE_DRAW)));
 		addToPanel(panel,acceleration 		 = new SelectDouble("acceleration",	 Translator.get("PlotterSettingsPanel.AdjustAcceleration"	),settings.getDouble(PlotterSettings.MAX_ACCELERATION)));
 		addToPanel(panel,penRaiseRate        = new SelectDouble("liftSpeed",	 Translator.get("PlotterSettingsPanel.penToolLiftSpeed"		),settings.getDouble(PlotterSettings.PEN_ANGLE_UP_TIME)));
 		addToPanel(panel,penLowerRate        = new SelectDouble("lowerSpeed",	 Translator.get("PlotterSettingsPanel.penToolLowerSpeed"	),settings.getDouble(PlotterSettings.PEN_ANGLE_DOWN_TIME)));
@@ -152,11 +153,15 @@ public class PlotterSettingsPanel extends JPanel {
 		String myStyle = settings.getString(PlotterSettings.STYLE);
 		int index = Math.max(0,machineStyles.indexOf(myStyle));
 		addToPanel(panel,visualStyle         = new SelectOneOfMany("style",		 Translator.get("RobotMenu.RobotStyle"						), machineStyles.toArray(new String[0]), index));
-		addToPanel(panel,machineWidth 		 = new SelectDouble("width",		 Translator.get("PlotterSettingsPanel.MachineWidth"			),settings.getDouble(PlotterSettings.LIMIT_RIGHT) - settings.getDouble(PlotterSettings.LIMIT_LEFT)));
-		addToPanel(panel,machineHeight 	     = new SelectDouble("height",		 Translator.get("PlotterSettingsPanel.MachineHeight"		),settings.getDouble(PlotterSettings.LIMIT_TOP) - settings.getDouble(PlotterSettings.LIMIT_BOTTOM)));
+		addToPanel(panel,firmware            = new SelectOneOfMany("firmware",		 Translator.get("PlotterSettings.firmware"),new String[]{
+			Translator.get("PlotterSettings.firmware.Marlin"),  // PlotterSettings.FIRMWARE_MARLIN = 1
+			Translator.get("PlotterSettings.firmware.GRBL"),  // PlotterSettings.FIRMWARE_GRBL = 2
+		},settings.getInteger(PlotterSettings.FIRMWARE)-1));
+		addToPanel(panel,machineWidth 		 = new SelectDouble("width",		  Translator.get("PlotterSettingsPanel.MachineWidth"			),settings.getDouble(PlotterSettings.LIMIT_RIGHT) - settings.getDouble(PlotterSettings.LIMIT_LEFT)));
+		addToPanel(panel,machineHeight 	     = new SelectDouble("height",		  Translator.get("PlotterSettingsPanel.MachineHeight"		),settings.getDouble(PlotterSettings.LIMIT_TOP) - settings.getDouble(PlotterSettings.LIMIT_BOTTOM)));
 		addToPanel(panel,totalStepperNeeded  = new SelectDouble("stepperLength", Translator.get("PlotterSettingsPanel.StepperLengthNeeded"	),0));
-		addToPanel(panel,totalBeltNeeded 	 = new SelectDouble("beltLength",	 Translator.get("PlotterSettingsPanel.BeltLengthNeeded"		),0));
-		addToPanel(panel,totalServoNeeded 	 = new SelectDouble("servoLength",	 Translator.get("PlotterSettingsPanel.ServoLengthNeeded"	),0));
+		addToPanel(panel,totalBeltNeeded 	 = new SelectDouble("beltLength",	  Translator.get("PlotterSettingsPanel.BeltLengthNeeded"		),0));
+		addToPanel(panel,totalServoNeeded 	 = new SelectDouble("servoLength",	  Translator.get("PlotterSettingsPanel.ServoLengthNeeded"	),0));
 		return panel;
 	}
 
@@ -205,7 +210,8 @@ public class PlotterSettingsPanel extends JPanel {
 		settings.setColor(PlotterSettings.PEN_DOWN_COLOR_DEFAULT,selectPenDownColor.getColor());
 		settings.setColor(PlotterSettings.PEN_UP_COLOR,selectPenUpColor.getColor());
 		settings.setInteger(PlotterSettings.Z_MOTOR_TYPE,zMotorType.getSelectedIndex()+1);
-		
+		settings.setInteger(PlotterSettings.FIRMWARE,firmware.getSelectedIndex()+1);
+
 		settings.setInteger(PlotterSettings.BLOCK_BUFFER_SIZE,blockBufferSize.getValue());
 		settings.setInteger(PlotterSettings.SEGMENTS_PER_SECOND,segmentsPerSecond.getValue());
 		settings.setDouble(PlotterSettings.MIN_SEGMENT_LENGTH,minSegmentLength.getValue());

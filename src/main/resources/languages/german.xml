@@ -543,8 +543,7 @@
         <value>Roboter-Stil</value>
         <hint>[select style of robot to draw around art]</hint>
     </string>
-    <string>
-        <key>MenuView.zoomOut</key>
+    <key>MenuView.zoomOut</key>
         <value>Zoom -</value>
         <hint>[menu or dialog title]</hint>
     </string>
@@ -2272,6 +2271,21 @@
         <key>PlotterSettings.zMotorType.stepper</key>
         <value>Schrittmotor</value>
         <hint>[Stepper]</hint>
+    </string>
+    <string>
+        <key>PlotterSettings.firmware</key>
+        <value>Firmware</value>
+        <hint>[Firmware]</hint>
+    </string>
+    <string>
+        <key>PlotterSettings.firmware.Marlin</key>
+        <value>MArlin</value>
+        <hint>[Marlin]</hint>
+    </string>
+    <string>
+        <key>PlotterSettings.firmware.GRBL</key>
+        <value>GRBL</value>
+        <hint>[GRBL]</hint>
     </string>
     <string>
         <key>PlotterSettingsManagerPanel.RemoveProfile</key>

@@ -340,7 +340,9 @@
 
 	<string><key>PlotterSettings.zMotorType</key><value>Z axis type</value></string>
 	<string><key>PlotterSettings.zMotorType.servo</key><value>Servo</value></string>
-	<string><key>PlotterSettings.zMotorType.stepper</key><value>Stepper</value></string>
+	<string><key>PlotterSettings.zMotorType.stepper</key><value>Stepper</value></string>	<string><key>PlotterSettings.firmware</key><value>Firmware</value></string>
+	<string><key>PlotterSettings.firmware.Marlin</key><value>Marlin</value></string>
+	<string><key>PlotterSettings.firmware.GRBL</key><value>GRBL</value></string>
 	<string><key>PlotterSettings.StartGcode</key><value>Start GCode</value></string>
 	<string><key>PlotterSettings.EndGcode</key><value>End GCode</value></string>
 	<string><key>PlotterSettings.FindHomeGcode</key><value>Find Home GCode</value></string>
@@ -368,7 +370,7 @@
 	<string><key>PlotterSettingsPanel.penToolDown</key><value>Down angle (degrees)</value></string>
 	<string><key>PlotterSettingsPanel.penToolLiftSpeed</key><value>Pen lift time (ms)</value></string>
 	<string><key>PlotterSettingsPanel.penToolLowerSpeed</key><value>Pen lower time (ms)</value></string>
-	<string><key>PlotterSettingsPanel.Speed</key><value>Draw speed (mm/min)</value></string>
+	<string><key>PlotterSettingsPanel.penToolMaxSpeed</key><value>Draw speed (mm/min)</value></string>
 	<string><key>PlotterSettingsPanel.AdjustAcceleration</key><value>Acceleration (mm/s²)</value></string>
 	<string><key>PlotterSettingsPanel.pen up color</key><value>Up color</value></string>
 	<string><key>PlotterSettingsPanel.pen down color</key><value>Default down color</value></string>
